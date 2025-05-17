@@ -83,4 +83,27 @@ const updateBlog = async (req, res) => {
   }
 };
 
-export default { getAllBlogs, createBlog, updateBlog };
+const deleteBlog = async (req, res) => {
+  const { id } = req.params; // Get the blog ID from the request parameters
+  const userId = req.user.userId; // Get the userId from the request object
+
+  try {
+    const blog = await Blog.findById(id); // Find the blog by ID
+    if (!blog) {
+      return res.status(404).json({ message: "Blog not found" }); // If the blog is not found, send a 404 response with an error message
+    }
+    if (blog.userId.toString() !== userId) {
+      return res
+        .status(403)
+        .json({ message: "You are not authorized to delete this blog" }); // If the user is not authorized, send a 403 response with an error message
+    }
+    await blog.deleteOne(); // Delete the blog
+    res.status(200).json({ message: "Blog deleted successfully" }); // Send a 200 response indicating that the blog was deleted successfully
+  } catch (err) {
+    res
+      .status(500)
+      .json({ message: "Error deleting blog", error: err.message }); // If an error occurs, send a 500 response with an error message
+  }
+};
+
+export default { getAllBlogs, createBlog, updateBlog, deleteBlog };
