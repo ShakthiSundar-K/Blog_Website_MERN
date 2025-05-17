@@ -52,4 +52,35 @@ const createBlog = async (req, res) => {
   }
 };
 
-export default { getAllBlogs, createBlog };
+const updateBlog = async (req, res) => {
+  const { id } = req.params; // Get the blog ID from the request parameters
+  const userId = req.user.userId; // Get the userId from the request object
+  const updateFields = { ...req.body, updatedAt: new Date() }; // Get the fields to update from the request body and set updatedAt to the current date
+
+  try {
+    const blog = await Blog.findById(id); // Find the blog by ID
+    if (!blog) {
+      return res.status(404).json({ message: "Blog not found" }); // If the blog is not found, send a 404 response with an error message
+    }
+    if (blog.userId.toString() !== userId) {
+      return res
+        .status(403)
+        .json({ message: "You are not authorized to update this blog" }); // If the user is not authorized, send a 403 response with an error message
+    }
+    const updatedBlog = await Blog.findByIdAndUpdate(
+      id,
+      updateFields,
+      { new: true } // Return the updated blog
+    ); // Update the blog with the provided fields
+
+    res
+      .status(200)
+      .json({ message: "Blog updated successfully", data: updatedBlog }); // Send a 200 response with the updated blog
+  } catch (err) {
+    res
+      .status(500)
+      .json({ message: "Error updating blog", error: err.message }); // If an error occurs, send a 500 response with an error message
+  }
+};
+
+export default { getAllBlogs, createBlog, updateBlog };
