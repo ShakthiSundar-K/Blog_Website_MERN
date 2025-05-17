@@ -24,4 +24,32 @@ const getAllBlogs = async (req, res) => {
   }
 };
 
-export default { getAllBlogs };
+const createBlog = async (req, res) => {
+  const { title, category, content, image } = req.body; // Destructure the request body to get title, category, content, and image
+  const userId = req.user.userId; // Get the userId from the request object
+
+  try {
+    const user = await User.findById(userId); // Find the user by userId
+    if (!user) {
+      return res.status(404).json({ message: "User not found" }); // If the user is not found, send a 404 response with an error message
+    }
+    const newBlog = await Blog.create({
+      title,
+      category,
+      content,
+      image,
+      author: user.name,
+      userId,
+    }); // Create a new blog with the provided details
+
+    res
+      .status(201)
+      .json({ message: "Blog created successfully", data: newBlog }); // Send a 201 response with the created blog
+  } catch (err) {
+    res
+      .status(500)
+      .json({ message: "Error creating blog", error: err.message }); // If an error occurs, send a 500 response with an error message
+  }
+};
+
+export default { getAllBlogs, createBlog };
