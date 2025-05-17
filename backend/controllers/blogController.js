@@ -33,14 +33,20 @@ const createBlog = async (req, res) => {
     if (!user) {
       return res.status(404).json({ message: "User not found" }); // If the user is not found, send a 404 response with an error message
     }
-    const newBlog = await Blog.create({
+    // Build blog data, include image only if provided
+    const blogData = {
       title,
       category,
       content,
-      image,
       author: user.name,
       userId,
-    }); // Create a new blog with the provided details
+    };
+
+    if (image) {
+      blogData.image = image;
+    }
+
+    const newBlog = await Blog.create(blogData); // Create a new blog with the provided data
 
     res
       .status(201)
