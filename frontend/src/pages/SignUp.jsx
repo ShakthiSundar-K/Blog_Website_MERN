@@ -239,23 +239,6 @@ const SignUp = () => {
             </form>
           )}
         </Card>
-
-        <p className='mt-8 text-center text-sm text-gray-500'>
-          By signing up, you agree to our{" "}
-          <a
-            href='/terms'
-            className='font-medium text-teal-700 hover:text-teal-600 transition-colors'
-          >
-            Terms of Service
-          </a>{" "}
-          and{" "}
-          <a
-            href='/privacy'
-            className='font-medium text-teal-700 hover:text-teal-600 transition-colors'
-          >
-            Privacy Policy
-          </a>
-        </p>
       </div>
     </div>
   );
