@@ -3,6 +3,11 @@ import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 
 const signup = async (req, res) => {
+  if (!req.body || Object.keys(req.body).length === 0) {
+    return res
+      .status(400)
+      .json({ message: "Request body is empty or invalid" });
+  }
   const { name, email, password } = req.body; // Destructure the request body to get name, email, and password
 
   try {
@@ -22,6 +27,11 @@ const signup = async (req, res) => {
 };
 
 const signin = async (req, res) => {
+  if (!req.body || Object.keys(req.body).length === 0) {
+    return res
+      .status(400)
+      .json({ message: "Request body is empty or invalid" });
+  }
   const { email, password } = req.body; // Destructure the request body to get email and password
   try {
     const user = await User.findOne({ email }); // Find the user by email

@@ -9,7 +9,7 @@ connectDB(); //connect to the database
 
 const app = express(); // Create an instance of express
 app.use(cors()); // Enable CORS for all routes
-app.use(express.json()); // Parse incoming JSON requests
+app.use(express.json({ limit: "50mb" })); // Parse incoming JSON requests
 
 app.use(AppRoutes); // Use the routes defined in AppRoutes
 

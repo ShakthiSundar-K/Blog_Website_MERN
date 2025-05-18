@@ -25,6 +25,12 @@ const getAllBlogs = async (req, res) => {
 };
 
 const createBlog = async (req, res) => {
+  console.log("req.body:", req.body);
+  if (!req.body || Object.keys(req.body).length === 0) {
+    return res
+      .status(400)
+      .json({ message: "Request body is empty or invalid" });
+  }
   const { title, category, content, image } = req.body; // Destructure the request body to get title, category, content, and image
   const userId = req.user.userId; // Get the userId from the request object
 
@@ -61,6 +67,11 @@ const createBlog = async (req, res) => {
 const updateBlog = async (req, res) => {
   const { id } = req.params; // Get the blog ID from the request parameters
   const userId = req.user.userId; // Get the userId from the request object
+  if (!req.body || Object.keys(req.body).length === 0) {
+    return res
+      .status(400)
+      .json({ message: "Request body is empty or invalid" });
+  }
   const updateFields = { ...req.body, updatedAt: new Date() }; // Get the fields to update from the request body and set updatedAt to the current date
 
   try {
