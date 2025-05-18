@@ -11,9 +11,8 @@ A full-stack blog application that enables users to create, read, update, and de
 
 ## Blogify Screenshots
 
-![image](https://github.com/user-attachments/assets/9171ebba-5a59-4815-8e25-da783beb4f63)
+![image](https://github.com/user-attachments/assets/1fc123ec-0bf4-434f-8d30-78ab3a8acb21)
 ![image](https://github.com/user-attachments/assets/0e776f94-f988-4f81-9e96-3ff4be3bdf12)
-![image](https://github.com/user-attachments/assets/6db3ac9d-e222-4891-a473-409e743a8cf0)
 ![image](https://github.com/user-attachments/assets/58c700d6-3212-431e-9699-6e07b818e5d0)
 
 
