@@ -3,6 +3,8 @@ import User from "../models/User.js";
 
 const getAllBlogs = async (req, res) => {
   const { category, author } = req.query; // Destructure the query parameters to get category and author
+  console.log("Category:", category);
+  console.log("Author:", author);
   const filter = {};
   if (category) {
     filter.category = category; // Filter blogs by category if provided

@@ -10,8 +10,9 @@ const AllBlogs = () => {
   const [error, setError] = useState(null);
   const [categories, setCategories] = useState(["All"]);
   const [authors, setAuthors] = useState(["All"]);
-  const [selectedCategory, setSelectedCategory] = useState("All");
-  const [selectedAuthor, setSelectedAuthor] = useState("All");
+  // Change to arrays to support multiple selections
+  const [selectedCategories, setSelectedCategories] = useState(["All"]);
+  const [selectedAuthors, setSelectedAuthors] = useState(["All"]);
   const [isFilterModalOpen, setIsFilterModalOpen] = useState(false);
 
   // Predefined categories
@@ -28,25 +29,36 @@ const AllBlogs = () => {
   ];
 
   // Fetch blogs based on selected filters
-  const fetchBlogs = async (categoryFilter = "All", authorFilter = "All") => {
+  const fetchBlogs = async (
+    categoryFilters = ["All"],
+    authorFilters = ["All"]
+  ) => {
     try {
       setIsLoading(true);
 
-      // Prepare query string
-      let queryString = "";
-      if (categoryFilter !== "All") {
-        queryString += `category=${encodeURIComponent(categoryFilter)}`;
-      }
-      if (authorFilter !== "All") {
-        queryString += queryString
-          ? `&author=${encodeURIComponent(authorFilter)}`
-          : `author=${encodeURIComponent(authorFilter)}`;
+      // Prepare query string - important change here for multiple selections
+      let queryParams = new URLSearchParams();
+
+      // Add categories to query (if not "All")
+      if (!categoryFilters.includes("All")) {
+        categoryFilters.forEach((category) => {
+          queryParams.append("category", category);
+        });
       }
 
-      // Append query string to endpoint if needed
+      // Add authors to query (if not "All")
+      if (!authorFilters.includes("All")) {
+        authorFilters.forEach((author) => {
+          queryParams.append("author", author);
+        });
+      }
+
+      // Construct endpoint with query string
+      const queryString = queryParams.toString();
       const endpoint = queryString
         ? `${ApiRoutes.Get_Blogs.path}?${queryString}`
         : ApiRoutes.Get_Blogs.path;
+
       console.log("Fetching blogs from endpoint:", endpoint);
 
       const response = await api.get(endpoint, {
@@ -57,7 +69,7 @@ const AllBlogs = () => {
       setBlogs(data);
 
       // Only update categories and authors on initial load or when resetting filters
-      if (categoryFilter === "All" && authorFilter === "All") {
+      if (categoryFilters.includes("All") && authorFilters.includes("All")) {
         // Extract unique categories from the data
         const uniqueCategories = Array.from(
           new Set(data.map((blog) => blog.category))
@@ -92,28 +104,102 @@ const AllBlogs = () => {
 
   // Apply filters and close modal
   const applyFilters = () => {
-    fetchBlogs(selectedCategory, selectedAuthor);
+    fetchBlogs(selectedCategories, selectedAuthors);
     setIsFilterModalOpen(false);
   };
 
   // Reset filters
   const resetFilters = () => {
-    setSelectedCategory("All");
-    setSelectedAuthor("All");
-    fetchBlogs("All", "All");
+    setSelectedCategories(["All"]);
+    setSelectedAuthors(["All"]);
+    fetchBlogs(["All"], ["All"]);
     setIsFilterModalOpen(false);
+  };
+
+  // Handle removing a specific filter
+  const removeFilter = (type, value) => {
+    if (type === "category") {
+      const newCategories = selectedCategories.filter((cat) => cat !== value);
+      setSelectedCategories(newCategories.length ? newCategories : ["All"]);
+      fetchBlogs(
+        newCategories.length ? newCategories : ["All"],
+        selectedAuthors
+      );
+    } else if (type === "author") {
+      const newAuthors = selectedAuthors.filter((auth) => auth !== value);
+      setSelectedAuthors(newAuthors.length ? newAuthors : ["All"]);
+      fetchBlogs(selectedCategories, newAuthors.length ? newAuthors : ["All"]);
+    }
   };
 
   // Filter Modal Component
   const FilterModal = () => {
-    const [tempCategory, setTempCategory] = useState(selectedCategory);
-    const [tempAuthor, setTempAuthor] = useState(selectedAuthor);
+    // Use temporary state for categories and authors
+    const [tempCategories, setTempCategories] = useState([
+      ...selectedCategories,
+    ]);
+    const [tempAuthors, setTempAuthors] = useState([...selectedAuthors]);
+
+    // Toggle selection for a category
+    const toggleCategory = (category) => {
+      if (category === "All") {
+        setTempCategories(["All"]);
+        return;
+      }
+
+      let newCategories = [...tempCategories];
+
+      // Remove "All" if it's there
+      newCategories = newCategories.filter((cat) => cat !== "All");
+
+      if (newCategories.includes(category)) {
+        // Remove the category if already selected
+        newCategories = newCategories.filter((cat) => cat !== category);
+        // If no categories left, add "All"
+        if (newCategories.length === 0) {
+          newCategories = ["All"];
+        }
+      } else {
+        // Add the category
+        newCategories.push(category);
+      }
+
+      setTempCategories(newCategories);
+    };
+
+    // Toggle selection for an author
+    const toggleAuthor = (author) => {
+      if (author === "All") {
+        setTempAuthors(["All"]);
+        return;
+      }
+
+      let newAuthors = [...tempAuthors];
+
+      // Remove "All" if it's there
+      newAuthors = newAuthors.filter((auth) => auth !== "All");
+
+      if (newAuthors.includes(author)) {
+        // Remove the author if already selected
+        newAuthors = newAuthors.filter((auth) => auth !== author);
+        // If no authors left, add "All"
+        if (newAuthors.length === 0) {
+          newAuthors = ["All"];
+        }
+      } else {
+        // Add the author
+        newAuthors.push(author);
+      }
+
+      setTempAuthors(newAuthors);
+    };
 
     // Handle Apply button click
     const handleApply = () => {
-      setSelectedCategory(tempCategory);
-      setSelectedAuthor(tempAuthor);
-      applyFilters();
+      setSelectedCategories(tempCategories);
+      setSelectedAuthors(tempAuthors);
+      fetchBlogs(tempCategories, tempAuthors);
+      setIsFilterModalOpen(false);
     };
 
     return (
@@ -174,11 +260,11 @@ const AllBlogs = () => {
                   <button
                     key={category}
                     className={`px-3 py-2 rounded-full text-sm font-medium transition-all duration-200 ${
-                      tempCategory === category
+                      tempCategories.includes(category)
                         ? "bg-teal-500 text-white shadow-md"
                         : "bg-gray-100 hover:bg-teal-100 text-charcoal-700 hover:text-teal-600"
                     }`}
-                    onClick={() => setTempCategory(category)}
+                    onClick={() => toggleCategory(category)}
                   >
                     {category}
                   </button>
@@ -210,11 +296,11 @@ const AllBlogs = () => {
                   <button
                     key={author}
                     className={`px-3 py-2 rounded-full text-sm font-medium transition-all duration-200 ${
-                      tempAuthor === author
+                      tempAuthors.includes(author)
                         ? "bg-indigo-500 text-white shadow-md"
                         : "bg-gray-100 hover:bg-indigo-100 text-charcoal-700 hover:text-indigo-600"
                     }`}
-                    onClick={() => setTempAuthor(author)}
+                    onClick={() => toggleAuthor(author)}
                   >
                     {author}
                   </button>
@@ -293,6 +379,11 @@ const AllBlogs = () => {
     );
   }
 
+  // Count total active filters
+  const totalActiveFilters =
+    (selectedCategories.includes("All") ? 0 : selectedCategories.length) +
+    (selectedAuthors.includes("All") ? 0 : selectedAuthors.length);
+
   return (
     <div className='min-h-screen bg-offwhite py-12 px-4 sm:px-6 lg:px-8 bg-pattern'>
       <div className='max-w-7xl mx-auto'>
@@ -329,49 +420,55 @@ const AllBlogs = () => {
               </svg>
             </span>
             <span className='font-medium text-charcoal-800'>Filter Blogs</span>
-            {(selectedCategory !== "All" || selectedAuthor !== "All") && (
+            {totalActiveFilters > 0 && (
               <span className='ml-2 bg-indigo-100 text-indigo-800 text-xs px-2 py-1 rounded-full'>
-                {selectedCategory !== "All" && selectedAuthor !== "All"
-                  ? "2"
-                  : "1"}
+                {totalActiveFilters}
               </span>
             )}
           </button>
         </div>
 
         {/* Active filters display */}
-        {(selectedCategory !== "All" || selectedAuthor !== "All") && (
+        {totalActiveFilters > 0 && (
           <div className='mb-6 flex justify-center flex-wrap gap-2'>
             <div className='text-sm text-charcoal-800/70'>Active filters:</div>
-            {selectedCategory !== "All" && (
-              <div className='bg-teal-100 text-teal-800 text-sm px-3 py-1 rounded-full flex items-center'>
-                Category: {selectedCategory}
-                <button
-                  onClick={() => {
-                    setSelectedCategory("All");
-                    fetchBlogs("All", selectedAuthor);
-                  }}
-                  className='ml-2 text-teal-600 hover:text-teal-800'
+
+            {/* Display active category filters */}
+            {!selectedCategories.includes("All") &&
+              selectedCategories.map((category) => (
+                <div
+                  key={`cat-${category}`}
+                  className='bg-teal-100 text-teal-800 text-sm px-3 py-1 rounded-full flex items-center'
                 >
-                  ✕
-                </button>
-              </div>
-            )}
-            {selectedAuthor !== "All" && (
-              <div className='bg-indigo-100 text-indigo-800 text-sm px-3 py-1 rounded-full flex items-center'>
-                Author: {selectedAuthor}
-                <button
-                  onClick={() => {
-                    setSelectedAuthor("All");
-                    fetchBlogs(selectedCategory, "All");
-                  }}
-                  className='ml-2 text-indigo-600 hover:text-indigo-800'
+                  Category: {category}
+                  <button
+                    onClick={() => removeFilter("category", category)}
+                    className='ml-2 text-teal-600 hover:text-teal-800'
+                  >
+                    ✕
+                  </button>
+                </div>
+              ))}
+
+            {/* Display active author filters */}
+            {!selectedAuthors.includes("All") &&
+              selectedAuthors.map((author) => (
+                <div
+                  key={`auth-${author}`}
+                  className='bg-indigo-100 text-indigo-800 text-sm px-3 py-1 rounded-full flex items-center'
                 >
-                  ✕
-                </button>
-              </div>
-            )}
-            {(selectedCategory !== "All" || selectedAuthor !== "All") && (
+                  Author: {author}
+                  <button
+                    onClick={() => removeFilter("author", author)}
+                    className='ml-2 text-indigo-600 hover:text-indigo-800'
+                  >
+                    ✕
+                  </button>
+                </div>
+              ))}
+
+            {/* Clear all button */}
+            {totalActiveFilters > 0 && (
               <button
                 onClick={resetFilters}
                 className='text-sm text-red-600 hover:text-red-800 underline ml-2'
@@ -407,12 +504,13 @@ const AllBlogs = () => {
             </svg>
             <h3 className='text-xl font-bold mb-2'>No blogs found</h3>
             <p className='text-charcoal-800/70'>
-              {selectedCategory !== "All" && selectedAuthor !== "All"
-                ? `No blogs found in the "${selectedCategory}" category by author "${selectedAuthor}".`
-                : selectedCategory !== "All"
-                ? `No blogs found in the "${selectedCategory}" category.`
-                : selectedAuthor !== "All"
-                ? `No blogs found by author "${selectedAuthor}".`
+              {!selectedCategories.includes("All") &&
+              !selectedAuthors.includes("All")
+                ? `No blogs found with the selected categories and authors.`
+                : !selectedCategories.includes("All")
+                ? `No blogs found in the selected categories.`
+                : !selectedAuthors.includes("All")
+                ? `No blogs found by the selected authors.`
                 : "No blogs available at the moment."}
             </p>
           </div>
