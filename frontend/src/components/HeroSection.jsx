@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import Logo from "./Logo";
 
 const HeroSection = () => {
   const [scrollPosition, setScrollPosition] = useState(0);
@@ -35,36 +34,14 @@ const HeroSection = () => {
     };
   }, []);
 
-  // Featured posts data
-  const featuredPosts = [
-    {
-      title: "The Art of Mindful Writing",
-      category: "Lifestyle",
-      author: "Emma Johnson",
-      image: "/api/placeholder/600/400",
-    },
-    {
-      title: "Future of Web Development",
-      category: "Technology",
-      author: "Michael Chen",
-      image: "/api/placeholder/600/400",
-    },
-    {
-      title: "Sustainable Living Guide",
-      category: "Environment",
-      author: "Sarah Miller",
-      image: "/api/placeholder/600/400",
-    },
-  ];
-
   return (
-    <div className='relative overflow-hidden'>
+    <div className='relative overflow-hidden '>
       {/* Background pattern */}
       <div className='absolute inset-0 bg-pattern opacity-70'></div>
 
       {/* Hero main content */}
       <div className='relative mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl'>
-        <div className='pt-16 pb-24 md:pt-20 md:pb-28 lg:pt-24 lg:pb-32'>
+        <div className='pt-8 pb-24 md:pt-20 md:pb-28 lg:pt-16 lg:pb-20'>
           {/* Main hero content */}
           <div className='grid grid-cols-1 lg:grid-cols-2 gap-12 items-center'>
             {/* Left column - Text content */}

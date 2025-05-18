@@ -5,6 +5,8 @@ import SignIn from "./pages/SignIn";
 import ProtectedRoute from "./utils/ProtectedRoute";
 import Layout from "./components/Layout";
 import Home from "./pages/Home";
+import CreateBlog from "./pages/CreateBlog";
+import MyBlogs from "./pages/MyBlogs";
 
 const App = () => {
   return (
@@ -24,6 +26,8 @@ const App = () => {
           }
         >
           <Route index element={<Home />} />
+          <Route path='/create-blog' element={<CreateBlog />} />
+          <Route path='/my-blogs' element={<MyBlogs />} />
         </Route>
       </Routes>
     </BrowserRouter>
