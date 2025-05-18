@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 const HeroSection = () => {
+  const navigate = useNavigate();
   const [scrollPosition, setScrollPosition] = useState(0);
   const [isVisible, setIsVisible] = useState(Array(3).fill(false));
 
@@ -66,10 +68,16 @@ const HeroSection = () => {
               </p>
 
               <div className='flex flex-wrap gap-4'>
-                <button className='px-8 py-3 bg-teal-500 hover:bg-teal-600 text-white rounded-full font-medium shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1'>
+                <button
+                  className='px-8 py-3 bg-teal-500 hover:bg-teal-600 text-white rounded-full font-medium shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1'
+                  onClick={() => navigate("/create-blog")}
+                >
                   Start Writing
                 </button>
-                <button className='px-8 py-3 border-2 border-teal-500 text-teal-500 hover:bg-teal-500/10 rounded-full font-medium transition-all duration-300'>
+                <button
+                  className='px-8 py-3 border-2 border-teal-500 text-teal-500 hover:bg-teal-500/10 rounded-full font-medium transition-all duration-300'
+                  onClick={() => navigate("/blogs")}
+                >
                   Explore Blogs
                 </button>
               </div>
