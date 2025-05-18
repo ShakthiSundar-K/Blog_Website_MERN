@@ -148,7 +148,11 @@ const SignUp = () => {
                 </p>
               </div>
               <div className='mt-5'>
-                <Button variant='primary' fullWidth>
+                <Button
+                  variant='primary'
+                  fullWidth
+                  onClick={() => navigate("/sign-in")}
+                >
                   Proceed to Login
                 </Button>
               </div>
