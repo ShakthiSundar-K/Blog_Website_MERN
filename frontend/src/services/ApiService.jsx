@@ -1,8 +1,7 @@
 import axios from "axios";
-import config from "../utils/config";
 import toast from "react-hot-toast";
 const api = axios.create({
-  baseURL: config.BASE_URL,
+  baseURL: import.meta.env.VITE_BASE_URL,
   headers: {
     "Content-Type": "application/json",
   },
