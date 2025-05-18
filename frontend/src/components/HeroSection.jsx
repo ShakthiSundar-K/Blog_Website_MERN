@@ -43,7 +43,7 @@ const HeroSection = () => {
 
       {/* Hero main content */}
       <div className='relative mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl'>
-        <div className='pt-8 pb-24 md:pt-20 md:pb-28 lg:pt-16 lg:pb-20'>
+        <div className='pt-8 pb-24 md:pt-20 md:pb-28 lg:pt-12 lg:pb-20'>
           {/* Main hero content */}
           <div className='grid grid-cols-1 lg:grid-cols-2 gap-12 items-center'>
             {/* Left column - Text content */}
@@ -120,13 +120,13 @@ const HeroSection = () => {
                   <div className='absolute inset-0 bg-gradient-to-r from-teal-500/30 to-coral-500/30 rounded-lg transform rotate-6'></div>
                   <div className='relative bg-white rounded-lg shadow-xl overflow-hidden transform -rotate-2 transition-all duration-500 hover:rotate-0'>
                     <img
-                      src='/api/placeholder/600/400'
+                      src='/hero.png'
                       alt=''
                       className='w-full h-auto object-cover'
                     />
                     <div className='p-6'>
                       <div className='inline-block px-3 py-1 bg-teal-500/10 text-teal-500 text-xs font-medium rounded-full mb-2'>
-                        Featured Post
+                        Technologu
                       </div>
                       <h3 className='text-xl font-bold mb-2'>
                         The Future of Content Creation
@@ -138,10 +138,10 @@ const HeroSection = () => {
                       <div className='mt-4 flex items-center justify-between'>
                         <div className='flex items-center'>
                           <div className='w-8 h-8 rounded-full bg-teal-500/20 flex items-center justify-center text-teal-500 font-medium'>
-                            JD
+                            SS
                           </div>
                           <span className='ml-2 text-sm text-charcoal-800/70'>
-                            John Doe
+                            Shakthi Sundar K
                           </span>
                         </div>
                         <span className='text-xs text-charcoal-800/50'>
