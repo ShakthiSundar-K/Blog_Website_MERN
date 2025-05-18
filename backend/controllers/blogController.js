@@ -31,6 +31,12 @@ const createBlog = async (req, res) => {
       .json({ message: "Request body is empty or invalid" });
   }
   const { title, category, content, image } = req.body; // Destructure the request body to get title, category, content, and image
+  if (!category) {
+    return res
+      .status(400)
+      .json({ message: "Please make sure that you have chosen a category" });
+  }
+
   const userId = req.user.userId; // Get the userId from the request object
 
   try {
@@ -57,9 +63,10 @@ const createBlog = async (req, res) => {
       .status(201)
       .json({ message: "Blog created successfully", data: newBlog }); // Send a 201 response with the created blog
   } catch (err) {
-    res
-      .status(500)
-      .json({ message: "Error creating blog", error: err.message }); // If an error occurs, send a 500 response with an error message
+    res.status(500).json({
+      message: "Error creating blog",
+      error: err.message,
+    }); // If an error occurs, send a 500 response with an error message
   }
 };
 
