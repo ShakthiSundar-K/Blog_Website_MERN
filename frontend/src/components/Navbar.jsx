@@ -65,7 +65,6 @@ const Navbar = () => {
     { name: "Home", path: "/" },
     { name: "Blogs", path: "/blogs" },
     { name: "Create Blog", path: "/create-blog" },
-    { name: "My Blogs", path: "/my-blogs" },
   ];
 
   // Get navbar height for main content padding
