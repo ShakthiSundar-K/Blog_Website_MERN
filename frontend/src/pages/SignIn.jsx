@@ -172,15 +172,6 @@ const SignIn = () => {
                   Remember me
                 </label>
               </div>
-
-              <div className='text-sm'>
-                <a
-                  href='/forgot-password'
-                  className='font-medium text-teal-700 hover:text-teal-600 transition-colors'
-                >
-                  Forgot your password?
-                </a>
-              </div>
             </div>
 
             <div className='pt-2'>
