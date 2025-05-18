@@ -228,12 +228,12 @@ const SignUp = () => {
               <div className='flex items-center justify-center mt-4'>
                 <div className='text-sm'>
                   Already have an account?{" "}
-                  <a
-                    href='/login'
-                    className='font-medium text-teal-700 hover:text-teal-600 transition-colors'
+                  <span
+                    onClick={() => navigate("/sign-in")}
+                    className='font-medium text-teal-700 hover:text-teal-600 transition-colors cursor-pointer'
                   >
                     Sign in
-                  </a>
+                  </span>
                 </div>
               </div>
             </form>
