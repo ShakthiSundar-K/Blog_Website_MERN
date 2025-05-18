@@ -25,7 +25,6 @@ const getAllBlogs = async (req, res) => {
 };
 
 const createBlog = async (req, res) => {
-  console.log("req.body:", req.body);
   if (!req.body || Object.keys(req.body).length === 0) {
     return res
       .status(400)
