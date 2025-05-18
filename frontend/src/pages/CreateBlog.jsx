@@ -129,7 +129,7 @@ const CreateBlog = () => {
       toast.success(response.message);
       // Show success state
       setIsSaved(true);
-      navigate("/my-blogs");
+      navigate("/blogs");
     } catch (error) {
       console.error("Error publishing blog:", error);
     } finally {
