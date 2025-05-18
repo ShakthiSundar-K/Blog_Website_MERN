@@ -91,7 +91,7 @@ const SignUp = () => {
       const response = await api.post(ApiRoutes.SignUp.path, formData, {
         authentictate: ApiRoutes.SignUp.authenticate,
       }); // Send POST request to the API
-      if (response.status === 201) toast.success(response.message);
+      toast.success(response.message);
       setSubmitSuccess(true);
     } catch (err) {
       setErrors({ server: "Network error. Please try again." });

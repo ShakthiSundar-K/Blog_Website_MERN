@@ -4,6 +4,7 @@ import SignUp from "./pages/SignUp";
 import SignIn from "./pages/SignIn";
 import ProtectedRoute from "./utils/ProtectedRoute";
 import Layout from "./components/Layout";
+import Home from "./pages/Home";
 
 const App = () => {
   return (
@@ -22,7 +23,7 @@ const App = () => {
             </ProtectedRoute>
           }
         >
-          {/* <Route index element={<Home />} /> */}
+          <Route index element={<Home />} />
         </Route>
       </Routes>
     </BrowserRouter>

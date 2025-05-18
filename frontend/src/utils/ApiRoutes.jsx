@@ -1,5 +1,5 @@
 const ApiRoutes = {
-  Login: {
+  SignIn: {
     path: "/api/auth/login",
     authenticate: false,
   },
