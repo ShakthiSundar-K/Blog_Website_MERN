@@ -10,10 +10,12 @@ import MyBlogs from "./pages/MyBlogs";
 import AllBlogs from "./pages/AllBlogs";
 import BlogDetail from "./components/BlogDetail";
 import EditBlog from "./pages/EditBlog";
+import ScrollToTop from "./ScrollToTop";
 
 const App = () => {
   return (
     <BrowserRouter>
+      <ScrollToTop />
       <Routes>
         {/* Auth routes without navbar */}
         <Route path='/sign-up' element={<SignUp />} />

@@ -29,7 +29,7 @@ const BlogCard = ({ blog }) => {
 
   return (
     <div
-      className='bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300 cursor-pointer animate-fadeIn'
+      className='bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300 cursor-pointer'
       onClick={handleCardClick}
     >
       <img
@@ -59,7 +59,13 @@ const BlogCard = ({ blog }) => {
               {blog.author}
             </span>
           </div>
-          <button className='text-teal-500 hover:text-teal-600 text-sm font-medium'>
+          <button
+            className='text-teal-500 hover:text-teal-600 text-sm font-medium'
+            onClick={(e) => {
+              e.stopPropagation();
+              navigate(`/blog-detail/${blog._id}`);
+            }}
+          >
             Read More
           </button>
         </div>

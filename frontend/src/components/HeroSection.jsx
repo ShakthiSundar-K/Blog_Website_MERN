@@ -113,7 +113,7 @@ const HeroSection = () => {
                   <div className='relative bg-white rounded-lg shadow-xl overflow-hidden transform -rotate-2 transition-all duration-500 hover:rotate-0'>
                     <img
                       src='/api/placeholder/600/400'
-                      alt='Featured blog post'
+                      alt=''
                       className='w-full h-auto object-cover'
                     />
                     <div className='p-6'>
