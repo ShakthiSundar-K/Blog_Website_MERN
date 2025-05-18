@@ -276,28 +276,28 @@ const MainContentSection = () => {
             <div className='relative grid grid-cols-2 gap-4'>
               <div className='p-2 bg-white rounded-lg shadow-lg transform rotate-2 hover:rotate-0 transition-all duration-300'>
                 <img
-                  src='/api/placeholder/300/400'
+                  src='/main1.jpg'
                   alt='Writers collaborating'
                   className='rounded-md w-full h-auto object-cover'
                 />
               </div>
               <div className='p-2 bg-white rounded-lg shadow-lg transform -rotate-1 hover:rotate-0 transition-all duration-300 mt-8'>
                 <img
-                  src='/api/placeholder/300/300'
+                  src='/main2.png'
                   alt='Content creation'
                   className='rounded-md w-full h-auto object-cover'
                 />
               </div>
               <div className='p-2 bg-white rounded-lg shadow-lg transform -rotate-2 hover:rotate-0 transition-all duration-300'>
                 <img
-                  src='/api/placeholder/300/300'
+                  src='/main3.png'
                   alt='Reader engagement'
                   className='rounded-md w-full h-auto object-cover'
                 />
               </div>
               <div className='p-2 bg-white rounded-lg shadow-lg transform rotate-1 hover:rotate-0 transition-all duration-300 mt-8'>
                 <img
-                  src='/api/placeholder/300/400'
+                  src='/main4.png'
                   alt='Community discussion'
                   className='rounded-md w-full h-auto object-cover'
                 />

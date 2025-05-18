@@ -126,7 +126,7 @@ const HeroSection = () => {
                     />
                     <div className='p-6'>
                       <div className='inline-block px-3 py-1 bg-teal-500/10 text-teal-500 text-xs font-medium rounded-full mb-2'>
-                        Technologu
+                        Technology
                       </div>
                       <h3 className='text-xl font-bold mb-2'>
                         The Future of Content Creation
