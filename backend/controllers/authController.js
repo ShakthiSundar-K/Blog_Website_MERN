@@ -47,7 +47,10 @@ const signin = async (req, res) => {
     }); // Generate a JWT token with the user's ID and a secret key, set to expire in 2 hour
     res
       .status(200)
-      .json({ token, user: { name: user.name, email: user.email } }); // Send a 200 response with the token and user ID
+      .json({
+        token,
+        user: { name: user.name, email: user.email, userId: user._id },
+      }); // Send a 200 response with the token and user ID
   } catch (err) {
     res.status(500).json({ message: "Error signing in", error: err.message }); // If an error occurs, send a 500 response with an error message
   }
