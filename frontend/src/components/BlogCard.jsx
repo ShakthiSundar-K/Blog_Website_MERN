@@ -63,7 +63,9 @@ const BlogCard = ({ blog }) => {
             className='text-teal-500 hover:text-teal-600 text-sm font-medium'
             onClick={(e) => {
               e.stopPropagation();
-              navigate(`/blog-detail/${blog._id}`);
+              navigate(`/blog-detail/${blog._id}`, {
+                state: { blogData: blog },
+              });
             }}
           >
             Read More
